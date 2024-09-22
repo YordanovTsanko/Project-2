@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Node Server",
+  "main": "index.js",
+  "author": "Tsanko Yordanov",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
