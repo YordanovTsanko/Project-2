@@ -22,13 +22,13 @@ const Button = styled.div`
   ${({ type, theme }) =>
     type === "secondary"
       ? `background: ${theme.secondary}`
-      : `background: ${theme.primary}`}
+      : `background: ${theme.primary}`};
 
-  ${({ isDisabled }) => isDisabled && `opacity:0.4; cursor:not-allowed;`}
+  ${({ isDisabled }) => isDisabled && `opacity:0.4; cursor:not-allowed;`};
 
-  ${({ isLoading }) => isLoading && `opacity: 0.8; cursor: not-allowed`}
+  ${({ isLoading }) => isLoading && `opacity: 0.8; cursor: not-allowed`};
 
-  ${({ flex }) => flex && `flex:1;`}
+  ${({ flex }) => flex && `flex:1;`};
 `;
 
 const button = ({
@@ -50,7 +50,7 @@ const button = ({
       flex={flex}
     >
       {isLoading && (
-        <CircularProgress style={{ width: "18px", height: "8px" }} />
+        <CircularProgress style={{color:"#15171E", width: "18px", height: "8px" }} />
       )}
       {leftIcon}
       {text}
@@ -60,4 +60,4 @@ const button = ({
   );
 };
 
-export default button
+export default button;

@@ -35,6 +35,7 @@ const Input = styled.label`
   font-size: 14px;
   outline: none;
   border: none;
+  resize: none;
   background-color: transparent;
   color: ${({ theme }) => theme.text_secondary};
   &:focus {
@@ -44,7 +45,7 @@ const Input = styled.label`
 
 const TextInput = ({
   label,
-  paceholder,
+  placeholder,
   name,
   value,
   handleChange,
@@ -57,7 +58,7 @@ const TextInput = ({
       <Label>{label}</Label>
       <OutlinedInput>
         <Input
-          as={textArea ? "textarea" : "text"}
+          as={textArea ? "textarea" : "input"}
           name={name}
           rows={rows}
           columns={columns}
