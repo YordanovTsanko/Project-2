@@ -42,6 +42,7 @@ const connectDatabase = async () => {
 
 connectDatabase();
 
+
 app.use("/api/post", PostRouter)
 app.use("/api/generateImage", GenerateImageRouter)
 

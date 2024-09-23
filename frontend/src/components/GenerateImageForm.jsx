@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "./button";
 import TextInput from "./TextInput";
-import { AutoAwesome, CreateRounded } from "@mui/icons-material";
+import { AddToQueue, AutoAwesome, CreateRounded } from "@mui/icons-material";
+import axios from "axios";
 
 const Form = styled.form`
   flex: 1;
@@ -50,13 +51,81 @@ const GenerateImageForm = ({
   imageLoading,
   setImageLoading,
 }) => {
+  const [photoCode, setPhotoCode] = useState("");
 
-  const generateImageFun = () => {
-    setImageLoading(true);
+  const handleError = (error) => {
+    if (error.response) {
+      console.error(error.response);
+      alert(error.response.data.error);
+    } else {
+      console.error("An unexpected error occurred:", error.message);
+    }
   };
 
-  const createPostFun = () => {
-    setPostLoading(true);
+  const generateImage = async () => {
+    setImageLoading(true);
+    setPhotoCode("");
+    setPost({
+      ...post,
+      photo: "",
+    });
+
+    try {
+      const res = await axios.post("/api/generateImage", {
+        prompt: post.prompt,
+      });
+
+      if (res?.data?.photoCode) {
+        console.log("Photo code received:", res.data.photoCode);
+        setPhotoCode(res.data.photoCode);
+      } else {
+        throw new Error("No photo code received");
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
+  const fetchImageStatus = async () => {
+    setImageLoading(true);
+    if (!photoCode) {
+      alert("No photo code available to fetch the image.");
+      return;
+    }
+
+    try {
+      const imageResponse = await axios.get(`/api/generateImage/${photoCode}`);
+
+      console.log(imageResponse.data);
+      if (
+        imageResponse.data.status === "IN_PROGRESS" ||
+        imageResponse.data.status === "IN_QUEUE"
+      ) {
+        await new Promise((resolve) => setTimeout(resolve, 30000));
+        await fetchImageStatus();
+      }
+
+      if (imageResponse.data.status === "FAILED") {
+        console.log(imageResponse.data.error);
+        throw new Error(imageResponse.data.error);
+      }
+      if (imageResponse.data.photo) {
+        console.log("Image generation completed:", imageResponse.data);
+        setImageLoading(false);
+        setPost({
+          ...post,
+          photo: imageResponse.data.photo,
+        });
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const createPostFun = async () => {
+    console.log("Posting. . .");
   };
 
   return (
@@ -90,19 +159,29 @@ const GenerateImageForm = ({
         <Button
           text="Generate Image"
           leftIcon={<AutoAwesome />}
-          isLoading={imageLoading}
+          isLoading={imageLoading || postLoading}
           isDisabled={post.name === "" || post.prompt === ""}
-          onClick={()=>generateImageFun()}
+          onClick={async () => {
+            await generateImage();
+          }}
+        />
+        <Button
+          text="Show Image"
+          type="secondary"
+          leftIcon={<AddToQueue />}
+          isLoading={postLoading}
+          isDisabled={photoCode === ""}
+          onClick={async () => await fetchImageStatus()}
         />
         <Button
           text="Post Image"
-          type="secondary"
+          type="green"
           leftIcon={<CreateRounded />}
           isLoading={postLoading}
           isDisabled={
             post.name === "" || post.prompt === "" || post.photo === ""
           }
-          onClick={()=>createPostFun()}
+          onClick={async () => createPostFun()}
         />
       </Actions>
     </Form>

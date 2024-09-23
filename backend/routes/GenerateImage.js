@@ -4,6 +4,6 @@ import { generateImage,getGenerateImage } from "../controllers/GenerateImage.js"
 const router = express.Router();
 
 router.post("/", generateImage);
-router.get("/", getGenerateImage);
+router.get("/:photoCode", getGenerateImage);
 
 export default router;

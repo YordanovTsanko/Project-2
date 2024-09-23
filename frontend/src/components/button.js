@@ -18,11 +18,12 @@ const Button = styled.div`
   @media (max-width: 600px) {
     padding: 8px 12px;
   }
-
   ${({ type, theme }) =>
-    type === "secondary"
-      ? `background: ${theme.secondary}`
-      : `background: ${theme.primary}`};
+    type === "green"
+      ? `background: green;`
+      : type === "secondary"
+      ? `background: ${theme.secondary};`
+      : `background: ${theme.primary};`}
 
   ${({ isDisabled }) => isDisabled && `opacity:0.4; cursor:not-allowed;`};
 
@@ -50,7 +51,9 @@ const button = ({
       flex={flex}
     >
       {isLoading && (
-        <CircularProgress style={{color:"#15171E", width: "18px", height: "8px" }} />
+        <CircularProgress
+          style={{ color: "#15171E", width: "18px", height: "8px" }}
+        />
       )}
       {leftIcon}
       {text}
