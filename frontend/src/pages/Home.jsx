@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { SearchBar } from "../components/SearchBar";
 import ImageCard from "../components/ImageCard";
 import axios from "axios";
-import { CircularProgress, LinearProgress } from "@mui/material";
+import { CircularProgress} from "@mui/material";
 
 const Container = styled.div`
   height: 100%;
