@@ -30,7 +30,7 @@ const OutlinedInput = styled.div`
   }
 `;
 
-const Input = styled.label`
+const Input = styled.input`
   width: 100%;
   font-size: 14px;
   outline: none;
@@ -40,7 +40,7 @@ const Input = styled.label`
   color: ${({ theme }) => theme.text_secondary};
   &:focus {
     outline: none;
-  }
+  
 `;
 
 const TextInput = ({
@@ -52,18 +52,21 @@ const TextInput = ({
   textArea,
   rows,
   columns,
+  isDisabled,
 }) => {
   return (
     <Container>
       <Label>{label}</Label>
       <OutlinedInput>
         <Input
+          autoComplete="off"
           as={textArea ? "textarea" : "input"}
           name={name}
           rows={rows}
           columns={columns}
           placeholder={placeholder}
           value={value}
+          disabled={isDisabled}
           onChange={(e) => handleChange(e)}
         />
       </OutlinedInput>

@@ -35,11 +35,9 @@ const GeneratedImageCard = ({ src, loading }) => {
     <Container>
       {loading ? (
         <LoadingDiv>
-          <CircularProgress
-            sx={{ color: "yellow"}}
-            size={24}
-          />
-          Generating your image . . .
+          <CircularProgress sx={{ color: "yellow" }} size={30} />
+          Generating your image . . .<br />
+          This may take up to 5 minutes
         </LoadingDiv>
       ) : (
         <>{src ? <Image src={src} /> : <>Write a prompt to generate image</>}</>

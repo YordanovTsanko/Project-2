@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Avatar } from "@mui/material";
 import { DownloadRounded } from "@mui/icons-material";
-import FileSaver from  "file-saver"
+import FileSaver from "file-saver";
 
 const Card = styled.div`
   position: relative;
@@ -46,11 +46,6 @@ const HoverOverlay = styled.div`
   }
 `;
 
-const Prompt = styled.div`
-  font-weight: 400;
-  font-size: 15px;
-  color: ${({ theme }) => theme.white};
-`;
 
 const Author = styled.div`
   font-weight: 600;
@@ -67,29 +62,22 @@ const DownloadButton = styled.div`
   font-weight: 600;
 `;
 
-const ImageCard = ({item}) => {
-
-console.log(item?.photo?.split('/').pop())
-const fileName = item?.photo?.split('/').pop() || 'download.jpg';
+const ImageCard = ({ item }) => {
+  const fileName = item?.photo?.split("/").pop() || "download.jpg";
 
   return (
     <Card>
-      <LazyLoadImage
-      alt={item?.prompt}
-        width="100%"
-        src={item?.photo}
-      />
+      <LazyLoadImage alt={item?.prompt} width="100%" src={item?.photo} />
       <HoverOverlay>
-        <Prompt>{item?.prompt}</Prompt>
-          <Author style={{ fontSize: "15px" }}>
-            <Avatar style={{ width: "24px", height: "24px", fontSize: "13px" }}>
-            {item?.author[0]}
-            </Avatar>
-            {item?.author}
-          </Author>
-          <DownloadButton onClick={()=> FileSaver.saveAs(item?.photo, fileName)}>
-            <DownloadRounded /> Download
-          </DownloadButton>
+        <Author style={{ fontSize: "15px" }}>
+          <Avatar style={{ width: "24px", height: "24px", fontSize: "13px" }}>
+            {item?.name?.slice(0, 1).toUpperCase()}
+          </Avatar>
+          {item?.name}
+        </Author>
+        <DownloadButton onClick={() => FileSaver.saveAs(item?.photo, fileName)}>
+          <DownloadRounded /> Download
+        </DownloadButton>
       </HoverOverlay>
     </Card>
   );

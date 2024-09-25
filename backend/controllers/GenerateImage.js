@@ -14,14 +14,15 @@ export const generateImage = async (req, res, next) => {
       headers: {
         accept: "application/json",
         "content-type": "application/json",
-        authorization:
-          `Bearer ${process.env.MONSTER_API_KEY}`,
+        authorization: `Bearer ${process.env.MONSTER_API_KEY}`,
       },
       data: {
         safe_filter: true,
         prompt: prompt,
-        steps: 200,
-        style: "enhance",
+        steps: 450,
+        style: "photorealistic",
+        negprompt:
+          "blurry, low quality, low resolution, out of focus, grainy, distorted, oversaturated, dull, washed out, unrealistic, bad anatomy, bad proportions, deformed, extra limbs, missing limbs, duplicate limbs, watermark, text, bad perspective, wrong shadows, incorrect lighting, underexposed, overexposed, unnatural colors, glitches, artifacts, cropped, duplicate face, extra face, strange hands, disfigured face, asymmetrical face, overly bright, overexposed highlights, flat shading, bad depth, bad symmetry, messy background, unintentional reflections",
       },
     };
 
@@ -36,6 +37,7 @@ export const generateImage = async (req, res, next) => {
           "An error occurred"
       )
     );
+    console.log(error)
   }
 };
 

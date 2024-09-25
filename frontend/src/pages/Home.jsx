@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SearchBar } from "../components/SearchBar";
 import ImageCard from "../components/ImageCard";
+import axios from "axios";
 
 const Container = styled.div`
   height: 100%;
@@ -67,15 +68,17 @@ const CardWrapper = styled.div`
 `;
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
 
-const item = {
-  photo : "https://upload.wikimedia.org/wikipedia/commons/1/1b/%D0%98%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_307.jpg",
-  author:"Tsanko",
-  prompt: "Flower",
+  const fetchPosts = async () => {
+    const imageResponse = await axios.get(`/api/post`);
+    setPosts(imageResponse.data.data);
+  };
 
-
-}
-
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  
   return (
     <Container>
       <Headline>
@@ -84,30 +87,8 @@ const item = {
       <SearchBar />
       <Wrapper>
         <CardWrapper>
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
-          <ImageCard
-            item={item}
-          />
+          {posts.length > 0 &&
+            posts.map((item, index) => <ImageCard key={index} item={item} />)}
         </CardWrapper>
       </Wrapper>
     </Container>
