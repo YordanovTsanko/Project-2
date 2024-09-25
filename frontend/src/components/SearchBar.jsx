@@ -15,20 +15,27 @@ const SearchBarContainer = styled.div`
   align-items: center;
 `;
 
-export const SearchBar = () => {
+export const SearchBar = ({ searchQuery, setSearchQuery }) => {
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <SearchBarContainer>
       <SearchOutlined />
       <input
-      placeholder="Search with prompt or name . . ."
+        placeholder="Search with prompt or name . . ."
         style={{
           border: "none",
           outline: "none",
           width: "100%",
           color: "inherit",
           fontSize: "16px",
-          background: "transparent"
+          background: "transparent",
         }}
+        value={searchQuery}
+        onChange={handleSearchChange}
       />
     </SearchBarContainer>
   );

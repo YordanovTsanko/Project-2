@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { SearchBar } from "../components/SearchBar";
 import ImageCard from "../components/ImageCard";
 import axios from "axios";
+import { CircularProgress, LinearProgress } from "@mui/material";
 
 const Container = styled.div`
   height: 100%;
@@ -69,27 +70,43 @@ const CardWrapper = styled.div`
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchPosts = async () => {
     const imageResponse = await axios.get(`/api/post`);
     setPosts(imageResponse.data.data);
+    setPostsLoading(false)
   };
+
+  const filteredPosts = posts.filter((item) =>
+    item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     fetchPosts();
   }, []);
-  
+
   return (
     <Container>
       <Headline>
         Explore popluar posts in the Community! <Span>Generated with AI</Span>
       </Headline>
-      <SearchBar />
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <Wrapper>
-        <CardWrapper>
-          {posts.length > 0 &&
-            posts.map((item, index) => <ImageCard key={index} item={item} />)}
-        </CardWrapper>
+        {postsLoading ? (
+          <>
+            <CircularProgress size="2.5rem" color="secondary" />
+            <h3 style={{fontWeight: "500"}}>Loading . . .</h3>
+          </>
+        ) : (
+          <CardWrapper>
+            {filteredPosts.length > 0 &&
+              filteredPosts.map((item, index) => (
+                <ImageCard key={index} item={item} />
+              ))}
+          </CardWrapper>
+        )}
       </Wrapper>
     </Container>
   );

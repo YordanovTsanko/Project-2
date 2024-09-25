@@ -9,12 +9,12 @@ const Card = styled.div`
   position: relative;
   display: flex;
   border-radius: 20px;
-  box-shadow: 1px 2px 40px 8px ${({ theme }) => theme.black + 60};
+  box-shadow: 1px 2px 10px 1px ${({ theme }) => theme.black + 60};
   transition: all 0.3s ease;
   overflow: hidden;
   backface-visibility: hidden;
   &:hover {
-    box-shadow: 1px 2px 40px 8px ${({ theme }) => theme.black + 80};
+    box-shadow: 1px 2px 10px 1px ${({ theme }) => theme.black + 80};
     scale: 1.05;
   }
   &:nth-child(7n + 1) {
