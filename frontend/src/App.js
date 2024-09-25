@@ -1,14 +1,15 @@
 import styled, { ThemeProvider } from "styled-components";
-import { darkTheme } from "./utils/Theme";
+import { darkTheme, lightTheme } from "./utils/Theme";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  height:100%;
+  height: 100%;
   display: flex;
   background: ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.text_primary};
@@ -27,12 +28,14 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={!isDarkMode ? lightTheme : darkTheme}>
       <Container>
         <Wrapper>
           <BrowserRouter>
-          <Navbar />
+            <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
             <Routes>
               <Route path="/" element={<Home />} exact />
               <Route path="/post" element={<CreatePost />} exact />

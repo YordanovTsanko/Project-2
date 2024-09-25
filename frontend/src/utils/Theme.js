@@ -28,7 +28,7 @@ export const lightTheme = {
   primary: "#007AFF",
   secondary: "#9747FF",
   disabled: "#b1b2b3",
-  navbar: "#242B3F",
+  navbar: "#cdcdcd",
   arrow: "#AFAFB5",
   menu_primary_text: "#F2F3F4",
   menu_secondary_text: "#b1b2b3",

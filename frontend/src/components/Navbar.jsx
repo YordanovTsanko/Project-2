@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "./button";
-import { AddRounded } from "@mui/icons-material";
+import { AddRounded, DarkMode, WbSunny } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FormControlLabel, Switch } from "@mui/material";
+import "./Navbar.css"
+
 
 const Container = styled.div`
   flex: 1;
@@ -20,29 +23,57 @@ const Container = styled.div`
   }
 `;
 
-const Navbar = () => {
+const LogoTitle = styled.a`
+  text-decoration: none;
+  color: ${({ theme }) => theme.text_primary};
+`;
+
+const Navbar = ({ isDarkMode, setIsDarkMode }) => {
   const naviagate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/");
 
+  const handleThemeChange = (event) => {
+    setIsDarkMode(event.target.checked);
+  };
+
   return (
     <Container>
-      <a href="/" style={{textDecoration: "none", color: "white"}}>Yordanov AI</a>
-      {path[1] === "post" ? (
-        <></>
-      ) : (
-        <Button
-          onClick={() => naviagate("/post")}
-          text="Generate Image"
-          leftIcon={
-            <AddRounded
-              style={{
-                fontSize: "18px",
-              }}
+      <LogoTitle href="/">Yordanov AI</LogoTitle>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isDarkMode}
+              onChange={handleThemeChange}
+              style={{color: "#fff"}}
+              icon={
+                <WbSunny
+                  style={{ color: "#000", transform: "translate(-2.1px,-1.5px)" }}
+                />
+              }
+              checkedIcon={
+                <DarkMode style={{ transform: "translate(2.1px,-1.5px)" }} />
+              }
             />
           }
         />
-      )}
+        {path[1] === "post" ? (
+          <></>
+        ) : (
+          <Button
+            onClick={() => naviagate("/post")}
+            text="Generate Image"
+            leftIcon={
+              <AddRounded
+                style={{
+                  fontSize: "18px",
+                }}
+              />
+            }
+          />
+        )}
+      </div>
     </Container>
   );
 };
