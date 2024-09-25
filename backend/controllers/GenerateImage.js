@@ -8,21 +8,42 @@ export const generateImage = async (req, res, next) => {
   try {
     const { prompt } = req.body;
 
+    // const options = {
+    //   method: "POST",
+    //   url: "https://api.monsterapi.ai/v1/generate/txt2img",
+    //   headers: {
+    //     accept: "application/json",
+    //     "content-type": "application/json",
+    //     authorization: `Bearer ${process.env.MONSTER_API_KEY}`,
+    //   },
+    //   data: {
+    //     safe_filter: true,
+    //     prompt: prompt,
+    //     steps: 500,
+    //     style: "photorealistic",
+    //     negprompt:
+    // "blurry, low quality, pixelated, grainy, out of focus, distorted, glitches, artifacts, unnatural shapes, unnatural proportions, incorrect anatomy, oversaturated, dull, washed out, unnatural colors, harsh lighting, bad shadows, underexposed, overexposed, bad anatomy, deformed, extra limbs, missing limbs, duplicate limbs, strange hands, disfigured face, asymmetrical face, bad perspective, bad depth, cropped, messy background, duplicate face, extra face, distorted facial features, strange expressions, unrealistic expressions, flat shading, cartoonish style, unrealistic textures, overly bright highlights, excessive filters, watermark, text, logo, unintended reflections, clutter, unintentional artifacts",
+    //   },
+    // };
+
     const options = {
       method: "POST",
-      url: "https://api.monsterapi.ai/v1/generate/txt2img",
+      url: "https://api.monsterapi.ai/v1/generate/sdxl-base",
       headers: {
         accept: "application/json",
         "content-type": "application/json",
         authorization: `Bearer ${process.env.MONSTER_API_KEY}`,
       },
       data: {
-        safe_filter: true,
-        prompt: prompt,
-        steps: 450,
+        enhance: true,
+        optimize: false,
+        safe_filter: false,
+        steps: 500,
         style: "photorealistic",
+        samples: 1,
         negprompt:
-          "blurry, low quality, low resolution, out of focus, grainy, distorted, oversaturated, dull, washed out, unrealistic, bad anatomy, bad proportions, deformed, extra limbs, missing limbs, duplicate limbs, watermark, text, bad perspective, wrong shadows, incorrect lighting, underexposed, overexposed, unnatural colors, glitches, artifacts, cropped, duplicate face, extra face, strange hands, disfigured face, asymmetrical face, overly bright, overexposed highlights, flat shading, bad depth, bad symmetry, messy background, unintentional reflections",
+          "blurry, low quality, pixelated, grainy, out of focus, distorted, glitches, artifacts, unnatural shapes, unnatural proportions, incorrect anatomy, oversaturated, dull, washed out, unnatural colors, harsh lighting, bad shadows, underexposed, overexposed, bad anatomy, deformed, extra limbs, missing limbs, duplicate limbs, strange hands, disfigured face, asymmetrical face, bad perspective, bad depth, cropped, messy background, duplicate face, extra face, distorted facial features, strange expressions, unrealistic expressions, flat shading, cartoonish style, unrealistic textures, overly bright highlights, excessive filters, watermark, text, logo, unintended reflections, clutter, unintentional artifacts, distorted text, incorrect spelling, unclear letters, low contrast, incomplete text",
+        prompt: prompt,
       },
     };
 
@@ -37,7 +58,7 @@ export const generateImage = async (req, res, next) => {
           "An error occurred"
       )
     );
-    console.log(error)
+    console.log(error);
   }
 };
 
